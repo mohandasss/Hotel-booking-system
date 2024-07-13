@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ApiService from '../../service/ApiService';
 import { useNavigate } from 'react-router-dom';
 
+
 function RegisterPage() {
     const navigate = useNavigate();
 
@@ -36,12 +37,8 @@ function RegisterPage() {
             return;
         }
         try {
-            // Call the register method from ApiService
             const response = await ApiService.registerUser(formData);
-
-            // Check if the response is successful
             if (response.statusCode === 200) {
-                // Clear the form fields after successful registration
                 setFormData({
                     name: '',
                     email: '',
@@ -54,8 +51,7 @@ function RegisterPage() {
                     navigate('/');
                 }, 3000);
             }
-        }
-         catch (error) {
+        } catch (error) {
             setErrorMessage(error.response?.data?.message || error.message);
             setTimeout(() => setErrorMessage(''), 5000);
         }
@@ -63,31 +59,62 @@ function RegisterPage() {
 
     return (
         <div className="auth-container">
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
-            <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Name:</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
-                </div>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
-                </div>
-                <div className="form-group">
-                    <label>Phone Number:</label>
-                    <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} required />
-                </div>
-                <div className="form-group">
-                    <label>Password:</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
-                </div>
-                <button type="submit">Register</button>
-            </form>
-            <p className="register-link">
-                Already have an account? <a href="/login">Login</a>
-            </p>
+            <div className="auth-image"></div>
+            <div className="auth-form">
+                <h2>Sign Up</h2>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name:</label>
+                        <input 
+                            id="name"
+                            type="text" 
+                            name="name" 
+                            value={formData.name} 
+                            onChange={handleInputChange} 
+                            required 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <input 
+                            id="email"
+                            type="email" 
+                            name="email" 
+                            value={formData.email} 
+                            onChange={handleInputChange} 
+                            required 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="phoneNumber">Phone Number:</label>
+                        <input 
+                            id="phoneNumber"
+                            type="text" 
+                            name="phoneNumber" 
+                            value={formData.phoneNumber} 
+                            onChange={handleInputChange} 
+                            required 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password:</label>
+                        <input 
+                            id="password"
+                            type="password" 
+                            name="password" 
+                            value={formData.password} 
+                            onChange={handleInputChange} 
+                            required 
+                        />
+                    </div>
+                    <button type="submit">Register</button>
+                </form>
+                <p className="register-link">
+                    Already have an account? <a href="/login">Login</a>
+                </p>
+            </div>
         </div>
     );
 }

@@ -1,6 +1,5 @@
 package com.phegondev.PhegonHotel.controller;
 
-
 import com.phegondev.PhegonHotel.dto.Response;
 import com.phegondev.PhegonHotel.entity.Booking;
 import com.phegondev.PhegonHotel.service.interfac.IBookingService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bookings")
-
 public class BookingController {
 
     @Autowired
@@ -19,14 +17,12 @@ public class BookingController {
 
     @PostMapping("/book-room/{roomId}/{userId}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<Response> saveBookings(@PathVariable Long roomId,
-                                                 @PathVariable Long userId,
-                                                 @RequestBody Booking bookingRequest) {
-
+    public ResponseEntity<Response> saveBooking(@PathVariable Long roomId,
+                                                @PathVariable Long userId,
+                                                @RequestBody Booking bookingRequest) {
 
         Response response = bookingService.saveBooking(roomId, userId, bookingRequest);
         return ResponseEntity.status(response.getStatusCode()).body(response);
-
     }
 
     @GetMapping("/all")
@@ -48,6 +44,4 @@ public class BookingController {
         Response response = bookingService.cancelBooking(bookingId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
-
-
 }

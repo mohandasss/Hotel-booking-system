@@ -33,10 +33,11 @@ const FindBookingPage = () => {
                     placeholder="Enter your booking confirmation code"
                     value={confirmationCode}
                     onChange={(e) => setConfirmationCode(e.target.value)}
+                    className="search-input"
                 />
-                <button onClick={handleSearch}>Find</button>
+                <button onClick={handleSearch} className="search-button">Find</button>
             </div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="error-message">{error}</p>}
             {bookingDetails && (
                 <div className="booking-details">
                     <h3>Booking Details</h3>
@@ -49,7 +50,7 @@ const FindBookingPage = () => {
                     <br />
                     <hr />
                     <br />
-                    <h3>Booker Detials</h3>
+                    <h3>Booker Details</h3>
                     <div>
                         <p> Name: {bookingDetails.user.name}</p>
                         <p> Email: {bookingDetails.user.email}</p>
@@ -62,7 +63,7 @@ const FindBookingPage = () => {
                     <h3>Room Details</h3>
                     <div>
                         <p> Room Type: {bookingDetails.room.roomType}</p>
-                        <img src={bookingDetails.room.roomPhotoUrl} alt="" sizes="" srcSet="" />
+                        <img src={bookingDetails.room.roomPhotoUrl} alt="Room" className="room-photo" />
                     </div>
                 </div>
             )}

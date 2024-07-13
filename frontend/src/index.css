@@ -7,6 +7,99 @@
 }
 
 
+.header-banner {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slideshow-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.header-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.header-image.active {
+    opacity: 1;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.overlay-content {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: white;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.service-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.service-card {
+    flex: 1 1 20%;
+    max-width: 20%;
+    box-sizing: border-box;
+    margin: 10px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}   
+
+.service-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.service-details {
+    padding: 10px;
+}
+
+.service-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.service-description {
+    font-size: 0.9em;
+    color: #555;
+}
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
 .colors {
     color: pink;
     color: #FF007F;
@@ -21,20 +114,31 @@
 /* General Navbar Styling */
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 25px 70px 25px 75px;
+    justify-content: space-between;
+    padding: 10px 20px;
     background-color: white;
+    color: black;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    font-size: 20px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
 }
 
 .navbar-brand a {
-    font-size: 24px;
-    font-weight: bold;
-    color: #007F86;
     text-decoration: none;
+    color: inherit; /* Inherits the color property from the parent */
+    font-weight: bold;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    object-fit: contain;
 }
 
 .navbar-ul {
@@ -52,54 +156,129 @@
 
 .navbar-ul li a {
     text-decoration: none;
-    color: #666;
+    color: #333;
     transition: color 0.5s;
 }
 
 .navbar-ul li a:hover {
-    color: #FF007F;
-    color: #FF7F50;
+    color: #FF007F; /* Hover color */
 }
 
 .navbar-ul li a.active {
-    color: #FF7F50;
+    color: #FF7F50; /* Active color */
 }
 
-.auth-container {
-    max-width: 400px;
-    padding: 20px;
-    border: 0.5px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    margin: 20px auto 50px auto;
-}
 
-.auth-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #007F86;
-}
 
-.register-link {
-    margin-top: 20px;
-    font-size: 13px;
-}
-
-.register-link a {
-    color: #007F86;
-    text-decoration: none;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
+.login-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .login-image {
+    flex: 1;
+    background-image: url('../public/assets//images//header.jpg'); /* Update this path */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 750px; /* Increase max-width */
+    margin: 0 auto; /* Center the form */
+  }
+  
+  .login-form h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+    position: relative;
+  }
+  
+  .form-group label {
     display: block;
-    font-weight: bold;
-}
-
-
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: box-shadow 0.3s, background-color 0.3s;
+  }
+  
+  .form-group input:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .form-group input:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .register-link {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .register-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
+  
 /**LOGIN CSS END HERE*/
 
 
@@ -107,34 +286,147 @@
 
 
 
+
+.auth-container {
+    display: flex;
+    height: 100vh;
+}
+
+.auth-image {
+    flex: 1;
+    background-image: url('../public/assets/images/register.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.auth-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.auth-form h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+    position: relative;
+}
+
 .form-group label {
     display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
 }
 
 .form-group input {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button[type="submit"] {
-    width: 95%;
-    padding: 12px;
-    background-color: #007F86;
-    color: #fff;
+    width: calc(100% - 2.5rem); /* Adjust input width to accommodate the eye button */
+    padding: 0.75rem;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: 800;
-    border-radius: 10px;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: box-shadow 0.3s, background-color 0.3s;
 }
 
-button[type="submit"]:hover {
-    background-color: rgb(34, 80, 128)
+.form-group .password-input {
+    position: relative;
+}
+
+.form-group input:hover {
+    background-color: #e0e0e0;
+}
+
+.form-group input:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 1rem; /* Adjust as needed */
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: #333; /* Adjust color as needed */
+    font-size: 1rem; /* Adjust font size as needed */
+    transition: color 0.3s; /* Optional: Add transition for color change */
+}
+
+.toggle-password:focus,
+.toggle-password:active {
+    outline: none; /* Remove outline on focus or active state */
+}
+
+.toggle-password svg {
+    vertical-align: middle;
+}
+
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.success-message {
+    color: green;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.register-link {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
 }
 
 
@@ -662,8 +954,13 @@ button[type="submit"]:hover {
     padding: 20px;
 }
 
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-.search-container input[type="text"] {
+.search-input {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -672,7 +969,7 @@ button[type="submit"]:hover {
     width: 300px;
 }
 
-button {
+.search-button {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #007F86;
@@ -682,7 +979,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.search-button:hover {
     background-color: rgb(34, 80, 128);
 }
 
@@ -693,9 +990,20 @@ button:hover {
     padding: 10px;
 }
 
+.room-photo {
+    max-width: 100%;
+    height: auto;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
 p {
     margin: 5px 0;
 }
+
 
 
 

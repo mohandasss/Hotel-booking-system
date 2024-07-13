@@ -6,40 +6,45 @@ import com.phegondev.PhegonHotel.entity.Room;
 import com.phegondev.PhegonHotel.exception.OurException;
 import com.phegondev.PhegonHotel.repo.BookingRepository;
 import com.phegondev.PhegonHotel.repo.RoomRepository;
-import com.phegondev.PhegonHotel.service.AwsS3Service;
 import com.phegondev.PhegonHotel.service.interfac.IRoomService;
 import com.phegondev.PhegonHotel.utils.Utils;
+import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RoomService implements IRoomService {
-
 
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
     private BookingRepository bookingRepository;
-    @Autowired
-    private AwsS3Service awsS3Service;
 
     @Override
     public Response addNewRoom(MultipartFile photo, String roomType, BigDecimal roomPrice, String description) {
         Response response = new Response();
 
         try {
-            String imageUrl = awsS3Service.saveImageToS3(photo);
+            // Save photo and get the URL
+            String photoUrl = savePhoto(photo);
+
             Room room = new Room();
-            room.setRoomPhotoUrl(imageUrl);
             room.setRoomType(roomType);
             room.setRoomPrice(roomPrice);
             room.setRoomDescription(description);
+            room.setRoomPhotoUrl(photoUrl); // Set the photo URL
+
             Room savedRoom = roomRepository.save(room);
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(savedRoom);
             response.setStatusCode(200);
@@ -52,6 +57,27 @@ public class RoomService implements IRoomService {
         }
         return response;
     }
+
+    private String savePhoto(MultipartFile photo) throws IOException, java.io.IOException {
+        // Get the user's desktop directory
+        String userHome = System.getProperty("user.home");
+        String directory = userHome + "/Desktop/RoomPhotos";
+
+        // Create the filename with a unique identifier
+        String filename = UUID.randomUUID().toString() + "_" + photo.getOriginalFilename();
+        Path filepath = Paths.get(directory, filename);
+
+        // Ensure the directory exists
+        Files.createDirectories(filepath.getParent());
+
+        // Save the photo to the directory
+        Files.copy(photo.getInputStream(), filepath, StandardCopyOption.REPLACE_EXISTING);
+
+        // Return the URL of the saved photo
+        // Assuming the photo will be served from a static URL (adjust accordingly)
+        return "/photos/" + filename;
+    }
+
 
     @Override
     public List<String> getAllRoomTypes() {
@@ -101,15 +127,12 @@ public class RoomService implements IRoomService {
         Response response = new Response();
 
         try {
-            String imageUrl = null;
-            if (photo != null && !photo.isEmpty()) {
-                imageUrl = awsS3Service.saveImageToS3(photo);
-            }
+            // Handle photo differently or omit this logic if not needed
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
             if (roomType != null) room.setRoomType(roomType);
             if (roomPrice != null) room.setRoomPrice(roomPrice);
             if (description != null) room.setRoomDescription(description);
-            if (imageUrl != null) room.setRoomPhotoUrl(imageUrl);
+            // Example: if (photo != null && !photo.isEmpty()) { room.setRoomPhotoUrl("new-url"); }
 
             Room updatedRoom = roomRepository.save(room);
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(updatedRoom);

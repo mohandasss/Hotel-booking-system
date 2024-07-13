@@ -18,8 +18,9 @@ function Navbar() {
 
     return (
         <nav className="navbar">
-            <div className="navbar-brand">
-                <NavLink to="/home">Phegon Hotel</NavLink>
+             <div className="navbar-brand">
+                <img src="/assets/images/logo.png" alt="Logo" className="navbar-logo" />
+                <NavLink to="/home">Mohan Hotels</NavLink>
             </div>
             <ul className="navbar-ul">
                 <li><NavLink to="/home" activeclassname="active">Home</NavLink></li>

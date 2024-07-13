@@ -3,7 +3,7 @@ package com.phegondev.PhegonHotel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.phegondev.PhegonHotel")
 public class PhegonHotelApplication {
 
     public static void main(String[] args) {
