@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from 'prop-types';
 import ApiService from '../../service/ApiService';
 
 const RoomSearch = ({ handleSearchResult }) => {
@@ -22,7 +23,6 @@ const RoomSearch = ({ handleSearchResult }) => {
     fetchRoomTypes();
   }, []);
 
-  /**This methods is going to be used to show errors */
   const showError = (message, timeout = 5000) => {
     setError(message);
     setTimeout(() => {
@@ -30,30 +30,26 @@ const RoomSearch = ({ handleSearchResult }) => {
     }, timeout);
   };
 
-  /**THis is going to be used to fetch avaailabe rooms from database base on seach data that'll be passed in */
   const handleInternalSearch = async () => {
     if (!startDate || !endDate || !roomType) {
       showError('Please select all fields');
-      return false;
+      return;
     }
     try {
-      // Convert startDate to the desired format
-      const formattedStartDate = startDate ? startDate.toISOString().split('T')[0] : null;
-      const formattedEndDate = endDate ? endDate.toISOString().split('T')[0] : null;
-      // Call the API to fetch available rooms
+      const formattedStartDate = startDate.toISOString().split('T')[0];
+      const formattedEndDate = endDate.toISOString().split('T')[0];
       const response = await ApiService.getAvailableRoomsByDateAndType(formattedStartDate, formattedEndDate, roomType);
 
-      // Check if the response is successful
       if (response.statusCode === 200) {
         if (response.roomList.length === 0) {
-          showError('Room not currently available for this date range on the selected rom type.');
-          return
+          showError('Room not currently available for this date range on the selected room type.');
+          return;
         }
         handleSearchResult(response.roomList);
         setError('');
       }
     } catch (error) {
-      showError("Unown error occured: " + error.response.data.message);
+      showError("Unknown error occurred: " + error.response.data.message);
     }
   };
 
@@ -78,16 +74,15 @@ const RoomSearch = ({ handleSearchResult }) => {
             placeholderText="Select Check-out Date"
           />
         </div>
-
         <div className="search-field">
           <label>Room Type</label>
           <select value={roomType} onChange={(e) => setRoomType(e.target.value)}>
             <option disabled value="">
               Select Room Type
             </option>
-            {roomTypes.map((roomType) => (
-              <option key={roomType} value={roomType}>
-                {roomType}
+            {roomTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
               </option>
             ))}
           </select>
@@ -99,6 +94,10 @@ const RoomSearch = ({ handleSearchResult }) => {
       {error && <p className="error-message">{error}</p>}
     </section>
   );
+};
+
+RoomSearch.propTypes = {
+  handleSearchResult: PropTypes.func.isRequired
 };
 
 export default RoomSearch;

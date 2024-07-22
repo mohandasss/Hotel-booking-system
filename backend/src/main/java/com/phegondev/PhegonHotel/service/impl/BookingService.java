@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -37,8 +38,11 @@ public class BookingService implements IBookingService {
         Response response = new Response();
 
         try {
+            if (bookingRequest.getCheckOutDate().isBefore(LocalDate.now())) {
+                throw new IllegalArgumentException("Check out date must be in the future");
+            }
             if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
-                throw new IllegalArgumentException("Check in date must come after check out date");
+                throw new IllegalArgumentException("Check out date must be after check in date");
             }
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
             User user = userRepository.findById(userId).orElseThrow(() -> new OurException("User Not Found"));
@@ -46,7 +50,7 @@ public class BookingService implements IBookingService {
             List<Booking> existingBookings = room.getBookings();
 
             if (!roomIsAvailable(bookingRequest, existingBookings)) {
-                throw new OurException("Room not Available for selected date range");
+                throw new OurException("Room not available for selected date range");
             }
 
             bookingRequest.setRoom(room);
@@ -55,7 +59,7 @@ public class BookingService implements IBookingService {
             bookingRequest.setBookingConfirmationCode(bookingConfirmationCode);
             bookingRepository.save(bookingRequest);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage("Successful");
             response.setBookingConfirmationCode(bookingConfirmationCode);
 
         } catch (OurException e) {
@@ -64,12 +68,11 @@ public class BookingService implements IBookingService {
 
         } catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Error Saving a booking: " + e.getMessage());
+            response.setMessage("Error saving a booking: " + e.getMessage());
 
         }
         return response;
     }
-
 
     @Override
     public Response findBookingByConfirmationCode(String confirmationCode) {
@@ -144,25 +147,11 @@ public class BookingService implements IBookingService {
 
 
     private boolean roomIsAvailable(Booking bookingRequest, List<Booking> existingBookings) {
-
         return existingBookings.stream()
                 .noneMatch(existingBooking ->
-                        bookingRequest.getCheckInDate().equals(existingBooking.getCheckInDate())
-                                || bookingRequest.getCheckOutDate().isBefore(existingBooking.getCheckOutDate())
-                                || (bookingRequest.getCheckInDate().isAfter(existingBooking.getCheckInDate())
-                                && bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckOutDate()))
-                                || (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckInDate())
-
-                                && bookingRequest.getCheckOutDate().equals(existingBooking.getCheckOutDate()))
-                                || (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckInDate())
-
-                                && bookingRequest.getCheckOutDate().isAfter(existingBooking.getCheckOutDate()))
-
-                                || (bookingRequest.getCheckInDate().equals(existingBooking.getCheckOutDate())
-                                && bookingRequest.getCheckOutDate().equals(existingBooking.getCheckInDate()))
-
-                                || (bookingRequest.getCheckInDate().equals(existingBooking.getCheckOutDate())
-                                && bookingRequest.getCheckOutDate().equals(bookingRequest.getCheckInDate()))
-                );
+                        (bookingRequest.getCheckInDate().isEqual(existingBooking.getCheckInDate()) ||
+                                bookingRequest.getCheckOutDate().isEqual(existingBooking.getCheckOutDate())) ||
+                                (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckOutDate()) &&
+                                        bookingRequest.getCheckOutDate().isAfter(existingBooking.getCheckInDate())));
     }
 }

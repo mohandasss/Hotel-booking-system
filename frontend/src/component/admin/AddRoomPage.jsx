@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ApiService from '../../service/ApiService';
 
-
 const AddRoomPage = () => {
     const navigate = useNavigate();
     const [roomDetails, setRoomDetails] = useState({
@@ -18,7 +17,6 @@ const AddRoomPage = () => {
     const [roomTypes, setRoomTypes] = useState([]);
     const [newRoomType, setNewRoomType] = useState(false);
 
-
     useEffect(() => {
         const fetchRoomTypes = async () => {
             try {
@@ -31,8 +29,6 @@ const AddRoomPage = () => {
         fetchRoomTypes();
     }, []);
 
-
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setRoomDetails(prevState => ({
@@ -40,7 +36,6 @@ const AddRoomPage = () => {
             [name]: value,
         }));
     };
-
 
     const handleRoomTypeChange = (e) => {
         if (e.target.value === 'new') {
@@ -51,7 +46,6 @@ const AddRoomPage = () => {
             setRoomDetails(prevState => ({ ...prevState, roomType: e.target.value }));
         }
     };
-
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -64,7 +58,6 @@ const AddRoomPage = () => {
         }
     };
 
-
     const addRoom = async () => {
         if (!roomDetails.roomType || !roomDetails.roomPrice || !roomDetails.roomDescription) {
             setError('All room details must be provided.');
@@ -73,7 +66,7 @@ const AddRoomPage = () => {
         }
 
         if (!window.confirm('Do you want to add this room?')) {
-            return
+            return;
         }
 
         try {
@@ -88,8 +81,7 @@ const AddRoomPage = () => {
 
             const result = await ApiService.addRoom(formData);
             if (result.statusCode === 200) {
-                setSuccess('Room Added successfully.');
-                
+                setSuccess('Room added successfully.');
                 setTimeout(() => {
                     setSuccess('');
                     navigate('/admin/manage-rooms');
@@ -140,7 +132,7 @@ const AddRoomPage = () => {
                 <div className="form-group">
                     <label>Room Price</label>
                     <input
-                        type="text"
+                        type="number"
                         name="roomPrice"
                         value={roomDetails.roomPrice}
                         onChange={handleChange}

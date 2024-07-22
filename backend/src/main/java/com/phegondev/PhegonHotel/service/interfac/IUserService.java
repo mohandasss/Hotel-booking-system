@@ -5,7 +5,7 @@ import com.phegondev.PhegonHotel.dto.Response;
 import com.phegondev.PhegonHotel.entity.User;
 
 public interface IUserService {
-    Response register(User user);
+    Response  register(User user);
 
     Response login(LoginRequest loginRequest);
 

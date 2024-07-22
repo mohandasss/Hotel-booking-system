@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,7 +32,7 @@ public class RoomController {
             @RequestParam(value = "roomType") String roomType,
             @RequestParam(value = "roomPrice") BigDecimal roomPrice,
             @RequestParam(value = "roomDescription", required = false) String roomDescription
-    ) {
+    ) throws IOException {
         Response response = roomService.addNewRoom(photo, roomType, roomPrice, roomDescription);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
