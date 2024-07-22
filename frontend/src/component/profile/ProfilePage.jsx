@@ -58,7 +58,7 @@ const ProfilePage = () => {
                                 <p><strong>Check-out Date:</strong> {booking.checkOutDate}</p>
                                 <p><strong>Total Guests:</strong> {booking.totalNumOfGuest}</p>
                                 <p><strong>Room Type:</strong> {booking.room.roomType}</p>
-                                <img src={booking.room.roomPhotoUrl} alt="Room" className="room-photo" />
+                                <img src={process.env.PUBLIC_URL + '/' +booking.room.roomPhotoUrl} alt="Room" className="room-photo" />
                             </div>
                         ))
                     ) : (

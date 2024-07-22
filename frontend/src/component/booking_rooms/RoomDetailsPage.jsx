@@ -147,7 +147,7 @@ const RoomDetailsPage = () => {
       )}
       <h2>Room Details</h2>
       <br />
-      <img src={roomPhotoUrl} alt={roomType} className="room-details-image" />
+      <img src={process.env.PUBLIC_URL + '/' +roomPhotoUrl} alt={roomType} className="room-details-image" />
       <div className="room-details-info">
         <h3>{roomType}</h3>
         <p>Price: ${roomPrice} / night</p>

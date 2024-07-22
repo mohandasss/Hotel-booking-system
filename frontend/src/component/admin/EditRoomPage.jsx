@@ -110,7 +110,7 @@ const EditRoomPage = () => {
                         <img src={preview} alt="Room Preview" className="room-photo-preview" />
                     ) : (
                         roomDetails.roomPhotoUrl && (
-                            <img src={roomDetails.roomPhotoUrl} alt="Room" className="room-photo" />
+                            <img src={process.env.PUBLIC_URL + '/' +roomDetails.roomPhotoUrl} alt="Room" className="room-photo" />
                         )
                     )}
                     <input
